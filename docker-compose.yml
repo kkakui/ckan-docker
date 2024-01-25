@@ -20,7 +20,7 @@ services:
       ckan:
         condition: service_healthy
     ports:
-      - "0.0.0.0:${NGINX_SSLPORT_HOST}:${NGINX_SSLPORT}"
+      - "0.0.0.0:${NGINX_PORT_HOST}:${NGINX_PORT}"
     
   ckan:
     container_name: ${CKAN_CONTAINER_NAME}
@@ -45,6 +45,8 @@ services:
         condition: service_healthy
     volumes:
       - ckan_storage:/var/lib/ckan
+    extra_hosts:
+      - host.docker.internal:host-gateway
     restart: unless-stopped
     healthcheck:
       test: ["CMD", "wget", "-qO", "/dev/null", "http://localhost:5000"]
